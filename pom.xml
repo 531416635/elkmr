@@ -21,7 +21,7 @@
 			provided explicitly -->
 		<assertj-core-version>1.5.0</assertj-core-version>
 		<oracle.connector.version>11.2.0.3</oracle.connector.version>
-		<spring.version>4.1.6.RELEASE</spring.version>
+		<spring.version>4.0.2.RELEASE</spring.version>
 		<jedis.version>2.1.0</jedis.version>
 	</properties>
 	<dependencyManagement>
@@ -113,12 +113,12 @@
 			<dependency>
 				<groupId>com.alibaba.rocketmq</groupId>
 				<artifactId>rocketmq-client</artifactId>
-				<version>3.2.6</version>
+				<version>3.4.6</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba.rocketmq</groupId>
 				<artifactId>rocketmq-common</artifactId>
-				<version>3.2.6</version>
+				<version>3.4.6</version>
 			</dependency>
 
 			<!-- noSQL -->
