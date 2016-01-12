@@ -12,6 +12,7 @@
 		<module>redismqelk-customer</module>
 		<module>redismqelk-producer1</module>
 		<module>redismqelk-web</module>
+		<module>redismqelk-dal</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
