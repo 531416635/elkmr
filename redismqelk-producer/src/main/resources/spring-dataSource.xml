@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:property-placeholder location="classpath:resources.properties" />
+	
+    <bean id="ztmdbDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close" scope="singleton">
+        <!-- 驱动名称 -->
+        <property name="DriverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <!-- JDBC连接串 -->
+        <property name="url" value="${ztm.connection.url}"/>
+        <!-- 数据库用户名称 -->
+        <property name="username" value="${ztm.connection.username}"/>
+        <!-- 数据库密码 -->
+        <property name="password" value="${ztm.connection.password}"/>
+        <!--<property name="url" value="jdbc:oracle:thin:@10.10.4.56:1521:devdb"/>-->
+        <!--<property name="username" value="javause"/>-->
+        <!--<property name="password" value="javausetest"/>-->
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${ztm.druid.maxActive}"/>
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${ztm.druid.initialSize}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${ztm.druid.minIdle}"/>
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'ZTM' FROM DUAL"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false"/>
+    </bean>
+
+    <!-- BALANCE DRUID数据源配置 -->
+    <bean id="balanceDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close" scope="singleton">
+        <!-- 驱动名称 -->
+        <property name="DriverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <!-- JDBC连接串 -->
+        <property name="url" value="${balance.connection.url}"/>
+        <!-- 数据库用户名称 -->
+        <property name="username" value="${balance.connection.username}"/>
+        <!-- 数据库密码 -->
+        <property name="password" value="${balance.connection.password}"/>
+        <!--<property name="url" value="jdbc:oracle:thin:@10.10.4.56:1521:devdb"/>-->
+        <!--<property name="username" value="javause"/>-->
+        <!--<property name="password" value="javausetest"/>-->
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${balance.druid.maxActive}"/>
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${balance.druid.initialSize}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${balance.druid.minIdle}"/>
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'BALANCE' FROM DUAL"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false"/>
+    </bean>
+
+    <!-- STATE DRUID数据源配置 -->
+    <bean id="stateDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close" scope="singleton">
+        <!-- 驱动名称 -->
+        <property name="DriverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <!-- JDBC连接串 -->
+        <property name="url" value="${state.connection.url}"/>
+        <!-- 数据库用户名称 -->
+        <property name="username" value="${state.connection.username}"/>
+        <!-- 数据库密码 -->
+        <property name="password" value="${state.connection.password}"/>
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${state.druid.maxActive}"/>
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${state.druid.initialSize}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${state.druid.minIdle}"/>
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'STATE' FROM DUAL"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false"/>
+    </bean>
+
+    <!-- BALANCE DRUID数据源配置 -->
+    <bean id="usercenterDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close" scope="singleton">
+        <!-- 驱动名称 -->
+        <property name="DriverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <!-- JDBC连接串 -->
+        <property name="url" value="${usercenter.connection.url}"/>
+        <!-- 数据库用户名称 -->
+        <property name="username" value="${usercenter.connection.username}"/>
+        <!-- 数据库密码 -->
+        <property name="password" value="${usercenter.connection.password}"/>
+        <!--<property name="url" value="jdbc:oracle:thin:@10.10.4.56:1521:devdb"/>-->
+        <!--<property name="username" value="javause"/>-->
+        <!--<property name="password" value="javausetest"/>-->
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${usercenter.druid.maxActive}"/>
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${usercenter.druid.initialSize}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${usercenter.druid.minIdle}"/>
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'USERCENTER' FROM DUAL"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false"/>
+    </bean>
+
+    <bean id="taobaoDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <!-- 驱动名称 -->
+        <property name="url" value="${taobao.connection.url}"/>
+        <property name="username" value="${taobao.connection.username}"/>
+        <property name="password" value="${taobao.connection.password}"/>
+        <!--<property name="url" value="jdbc:oracle:thin:@10.10.4.56:1521:devdb"/>-->
+        <!--<property name="username" value="javause"/>-->
+        <!--<property name="password" value="javausetest"/>-->
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${taobao.druid.maxActive}"/>
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${taobao.druid.initialSize}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${taobao.druid.minIdle}"/>
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'TAOBAO' FROM DUAL"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false"/>
+    </bean>
+
+    <tx:annotation-driven/>
+
+    <!--============= START ZTMDB ============== -->
+    <bean id="ztmSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ztmdbDataSource"/>
+    </bean>
+    <!-- 事务管理 -->
+    <bean id="ztmTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="ztmdbDataSource"/>
+    </bean>
+    <!-- Mapper注册 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="ztmSqlSessionFactory"></property>
+        <property name="basePackage" value="cn.zto.elk.mapper.ztm"></property>
+    </bean>
+    <!--============= END ZTMDB ============== -->
+
+    <!--============= START BALANCE ============== -->
+    <bean id="calcSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="balanceDataSource"/>
+    </bean>
+    <!-- 事务管理 -->
+    <bean id="calcTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="balanceDataSource"/>
+    </bean>
+    <!-- Mapper注册 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="calcSqlSessionFactory"></property>
+        <property name="basePackage" value="cn.zto.elk.mapper.calc"></property>
+    </bean>
+    <!--============= END BALANCE ============== -->
+
+    <!--============= START BALANCE ============== -->
+    <bean id="stateSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="stateDataSource"/>
+    </bean>
+    <!-- 事务管理 -->
+    <bean id="stateTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="stateDataSource"/>
+    </bean>
+    <!-- Mapper注册 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="stateSqlSessionFactory"></property>
+        <property name="basePackage" value="cn.zto.elk.mapper.state"></property>
+    </bean>
+    <!--============= END BALANCE ============== -->
+
+    <!--============= START TAOBAO ============== -->
+    <bean id="taobaoSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="taobaoDataSource"/>
+    </bean>
+    <!-- 事务管理 -->
+    <bean id="taobaoTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="taobaoDataSource"/>
+    </bean>
+    <!-- Mapper注册 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="taobaoSqlSessionFactory"></property>
+        <property name="basePackage" value="cn.zto.elk.mapper.taobao"></property>
+    </bean>
+    <!--============= END TAOBAO ============== -->
+
+</beans>
