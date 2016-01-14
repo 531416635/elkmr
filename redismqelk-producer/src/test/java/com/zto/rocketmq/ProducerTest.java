@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.exception.MQBrokerException;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
@@ -30,7 +31,7 @@ public class ProducerTest {
 	MqtestService mqtestService;
 
 	@Test
-	public void mqproducer() throws MQClientException, InterruptedException {
+	public void mqproducer() {
 
 		/**
 		 * 一个应用创建一个Producer，由应用来维护此对象，可以设置为全局对象或者单例
@@ -43,11 +44,16 @@ public class ProducerTest {
 		// 10.10.19.14必须为本机的IP地址，并且端口号为9876
 		producer.setNamesrvAddr("10.10.19.14:9876");
 		producer.setInstanceName("Producer");
-	 
+
 		/**
 		 * Producer对象在使用之前必须要强调start初始化，初始化一次即可 注意：切记不可以在每次发送消息时，都调用start方法
 		 */
-		producer.start();
+		try {
+			producer.start();
+		} catch (MQClientException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		/**
 		 * 下面这段代码表明一个Producer对象可以发送多个topic，多个tag消息
@@ -56,17 +62,24 @@ public class ProducerTest {
 		 * 需要对这种情况做处理。另外，消息可能会存在发送失败的情况，失败重试由应用来处理
 		 */
 		mqtestExample example = new mqtestExample();
-		example.createCriteria().andIdBetween(1, 50);
-		List<mqtest> list= mqtestService.selectByExample(example);
+		example.createCriteria().andIdBetween(1, 10);
+		List<mqtest> list = mqtestService.selectByExample(example);
 		for (int i = 0; i < list.size(); i++) {
 			try {
 				{
-					Message msg = new Message("TopicTest", "Tag",
-							"OrderID", list.get(i).toString().getBytes());
+					Message msg = new Message("helloRocket", "tag", "OrderID",
+							JSON.toJSONString(list.get(i)).getBytes());
+					// Message msg = new Message("helloRocket", "tag",
+					// "OrderID", list.get(i).getInfo().getBytes());
 
-					SendResult sendResult = producer.send(msg);
-					//System.out.println(sendResult);
-					//log.error(msg.getBody().toString());
+					try {
+						SendResult sendResult = producer.send(msg);
+						log.info("消息生成成功，请继续稍候操作！");
+					} catch (MQClientException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				}
 			} catch (RemotingException e) {
 				// TODO Auto-generated catch block
@@ -79,7 +92,12 @@ public class ProducerTest {
 				e.printStackTrace();
 			}
 
-			TimeUnit.MILLISECONDS.sleep(1000);
+			try {
+				TimeUnit.MILLISECONDS.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		/**
